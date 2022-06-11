@@ -1,3 +1,4 @@
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:diet_and_shopping_list_app/page/diet_generator_page.dart';
 import 'package:diet_and_shopping_list_app/widget/dashboard.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,92 @@ class DietPage extends StatefulWidget {
 class _DietPageState extends State<DietPage> {
   /*Shows which day selected from the widgetOptions*/
   int selectedIndex = 0;
+
+  /*Replace a Meal in the Diet*/
+  void replaceMeal(int index, String week, String mealName) {
+    var mealsBox = Hive.box('meals');
+    var allMeals = mealsBox.values;
+    List<String> allMealsNames = [];
+    for (var element in allMeals) {
+      allMealsNames.add(element.name);
+    }
+    GlobalKey<AutoCompleteTextFieldState<String>> key = GlobalKey();
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text("A(z) $mealName kicserélése!"),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    const Text(
+                        'Keressen a meglévő étkezések közül, és cserélje ki az étkezést!'),
+                    SimpleAutoCompleteTextField(
+                      key: key,
+                      suggestions: allMealsNames,
+                      clearOnSubmit: true,
+                      textSubmitted: (text) => setState(() {
+                        if (allMealsNames.contains(text)) {
+                          var dietBox = Hive.box('diet');
+                          var theDiet = dietBox.get('theDiet');
+                          var selectedMeal = mealsBox.get(text);
+                          setState(() {
+                            switch (week) {
+                              case "monday":
+                                {
+                                  theDiet.monday[index] = selectedMeal;
+                                }
+                                break;
+                              case "tuesday":
+                                {
+                                  theDiet.tuesday[index] = selectedMeal;
+                                }
+                                break;
+                              case "wednesday":
+                                {
+                                  theDiet.wednesday[index] = selectedMeal;
+                                }
+                                break;
+                              case "thursday":
+                                {
+                                  theDiet.thursday[index] = selectedMeal;
+                                }
+                                break;
+                              case "friday":
+                                {
+                                  theDiet.friday[index] = selectedMeal;
+                                }
+                                break;
+                              case "saturday":
+                                {
+                                  theDiet.saturday[index] = selectedMeal;
+                                }
+                                break;
+                              case "sunday":
+                                {
+                                  theDiet.sunday[index] = selectedMeal;
+                                }
+                                break;
+                              default:
+                                {}
+                            }
+                            theDiet.save();
+                          });
+                          Navigator.of(context).pop();
+                        }
+                      }),
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Vissza'))
+              ],
+            ));
+  }
 
   /*Function that sums app the calories of the meals per day*/
   int sumCaloriesPerDay(List<Meal> mealList) {
@@ -45,7 +132,15 @@ class _DietPageState extends State<DietPage> {
               itemBuilder: (context, index) {
                 return Column(
                   children: [
-                    MealCard(theDiet.monday[index], false, () {}),
+                    MealCard(
+                        theDiet.monday[index],
+                        false,
+                        () {},
+                        true,
+                        replaceMeal,
+                        index,
+                        "monday",
+                        theDiet.monday[index].name),
                   ],
                 );
               },
@@ -67,7 +162,15 @@ class _DietPageState extends State<DietPage> {
               itemBuilder: (context, index) {
                 return Column(
                   children: [
-                    MealCard(theDiet.tuesday[index], false, () {}),
+                    MealCard(
+                        theDiet.tuesday[index],
+                        false,
+                        () {},
+                        true,
+                        replaceMeal,
+                        index,
+                        "tuesday",
+                        theDiet.tuesday[index].name),
                   ],
                 );
               },
@@ -89,7 +192,15 @@ class _DietPageState extends State<DietPage> {
               itemBuilder: (context, index) {
                 return Column(
                   children: [
-                    MealCard(theDiet.wednesday[index], false, () {}),
+                    MealCard(
+                        theDiet.wednesday[index],
+                        false,
+                        () {},
+                        true,
+                        replaceMeal,
+                        index,
+                        "wednesday",
+                        theDiet.wednesday[index].name),
                   ],
                 );
               },
@@ -111,7 +222,15 @@ class _DietPageState extends State<DietPage> {
               itemBuilder: (context, index) {
                 return Column(
                   children: [
-                    MealCard(theDiet.thursday[index], false, () {}),
+                    MealCard(
+                        theDiet.thursday[index],
+                        false,
+                        () {},
+                        true,
+                        replaceMeal,
+                        index,
+                        "thursday",
+                        theDiet.thursday[index].name),
                   ],
                 );
               },
@@ -133,7 +252,15 @@ class _DietPageState extends State<DietPage> {
               itemBuilder: (context, index) {
                 return Column(
                   children: [
-                    MealCard(theDiet.friday[index], false, () {}),
+                    MealCard(
+                        theDiet.friday[index],
+                        false,
+                        () {},
+                        true,
+                        replaceMeal,
+                        index,
+                        "friday",
+                        theDiet.friday[index].name),
                   ],
                 );
               },
@@ -155,7 +282,15 @@ class _DietPageState extends State<DietPage> {
               itemBuilder: (context, index) {
                 return Column(
                   children: [
-                    MealCard(theDiet.saturday[index], false, () {}),
+                    MealCard(
+                        theDiet.saturday[index],
+                        false,
+                        () {},
+                        true,
+                        replaceMeal,
+                        index,
+                        "saturday",
+                        theDiet.saturday[index].name),
                   ],
                 );
               },
@@ -177,7 +312,15 @@ class _DietPageState extends State<DietPage> {
               itemBuilder: (context, index) {
                 return Column(
                   children: [
-                    MealCard(theDiet.sunday[index], false, () {}),
+                    MealCard(
+                        theDiet.sunday[index],
+                        false,
+                        () {},
+                        true,
+                        replaceMeal,
+                        index,
+                        "sunday",
+                        theDiet.sunday[index].name),
                   ],
                 );
               },

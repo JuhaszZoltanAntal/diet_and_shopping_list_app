@@ -4,11 +4,16 @@ import 'package:hive/hive.dart';
 import '../model/meal.dart';
 
 class MealCard extends StatefulWidget {
-  const MealCard(this.meal, this.isDeleteButton, this.deleteMeal);
+  const MealCard(this.meal, this.isDeleteButton, this.deleteMeal, this.isReplaceButton, this.replaceMeal, [this.index,this.week,this.mealName]);
 
   final bool isDeleteButton;
   final Meal meal;
   final Function deleteMeal;
+  final bool isReplaceButton;
+  final Function replaceMeal;
+  final int? index;
+  final String? week;
+  final String? mealName;
 
   @override
   State<MealCard> createState() => _MealCardState();
@@ -92,6 +97,17 @@ class _MealCardState extends State<MealCard> {
                           child: const Text("Étkezés törlése"),
                         ),
                       )
+                    : Container()),
+                (widget.isReplaceButton
+                    ? Align(
+                  alignment: Alignment.bottomRight,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      widget.replaceMeal(widget.index,widget.week, widget.mealName);
+                    },
+                    child: const Text("Étkezés kicserélése"),
+                  ),
+                )
                     : Container())
               ],
             ),

@@ -45,7 +45,7 @@ class _MealsPageState extends State<MealsPage> {
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
-                          MealCard(allMeals.elementAt(index), true, deleteMeal),
+                          MealCard(allMeals.elementAt(index), true, deleteMeal, false, (){}),
                         ],
                       );
                     },
