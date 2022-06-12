@@ -2,6 +2,7 @@ import 'package:diet_and_shopping_list_app/model/ingredient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
+
 import '../model/meal.dart';
 
 class NewMealForm extends StatefulWidget {
@@ -34,6 +35,18 @@ class _NewMealFormState extends State<NewMealForm> {
   Widget build(BuildContext context) {
     /*Get opened 'meals' box*/
     var mealsBox = Hive.box('meals');
+
+    /*Get all meals from the box*/
+    var allMeals = mealsBox.values;
+
+    /*Get all ingredient names from the given meals*/
+    List<String> autocompleteOptions = allMeals
+        .map((meal) => meal.ingredients)
+        .expand((x) => x)
+        .toList()
+        .map((ingredient) => ingredient.name as String)
+        .toSet()
+        .toList();
 
     return Form(
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -97,22 +110,77 @@ class _NewMealFormState extends State<NewMealForm> {
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: TextFormField(
-                                onSaved: (String? value) {
-                                  ingredientsList
-                                      .add(Ingredient("name", 0, "unit"));
-                                  ingredientsList[index].name = value!;
-                                },
-                                decoration: const InputDecoration(
-                                  labelText: 'Név',
-                                  hintText: 'pl.: tojás',
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Üres';
-                                  }
-                                  return null;
-                                }),
+                            child: Autocomplete<String>(
+                              optionsBuilder:
+                                  (TextEditingValue textEditingValue) {
+                                if (textEditingValue.text == '') {
+                                  return const Iterable<String>.empty();
+                                }
+                                return autocompleteOptions
+                                    .where((String option) {
+                                  return option.contains(
+                                      textEditingValue.text.toLowerCase());
+                                });
+                              },
+                              fieldViewBuilder: (BuildContext context,
+                                  TextEditingController
+                                      fieldTextEditingController,
+                                  FocusNode fieldFocusNode,
+                                  VoidCallback onFieldSubmitted) {
+                                return TextFormField(
+                                    controller: fieldTextEditingController,
+                                    focusNode: fieldFocusNode,
+                                    onSaved: (String? value) {
+                                      ingredientsList
+                                          .add(Ingredient("name", 0, "unit"));
+                                      ingredientsList[index].name = value!;
+                                    },
+                                    decoration: const InputDecoration(
+                                      labelText: 'Név',
+                                      hintText: 'pl.: tojás',
+                                    ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Üres';
+                                      }
+                                      return null;
+                                    });
+                              },
+                              onSelected: (String selection) {
+                                debugPrint('You just selected $selection');
+                              },
+                              optionsViewBuilder: (BuildContext context,
+                                  AutocompleteOnSelected<String> onSelected,
+                                  Iterable<String> options) {
+                                return Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Material(
+                                    child: Container(
+                                      height: 300,
+                                      width: 300,
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                      child: ListView.builder(
+                                        itemCount: options.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          final String optionStr =
+                                              options.elementAt(index);
+                                          return GestureDetector(
+                                            onTap: () {
+                                              onSelected(optionStr);
+                                            },
+                                            child: ListTile(
+                                              title: Text(optionStr),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
                         Expanded(
