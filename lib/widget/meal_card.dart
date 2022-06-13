@@ -1,10 +1,14 @@
+import 'package:basic_utils/basic_utils.dart';
 import 'package:diet_and_shopping_list_app/widget/meal_type_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+
 import '../model/meal.dart';
 
 class MealCard extends StatefulWidget {
-  const MealCard(this.meal, this.isDeleteButton, this.deleteMeal, this.isReplaceButton, this.replaceMeal, [this.index,this.week,this.mealName]);
+  const MealCard(this.meal, this.isDeleteButton, this.deleteMeal,
+      this.isReplaceButton, this.replaceMeal,
+      [this.index, this.week, this.mealName]);
 
   final bool isDeleteButton;
   final Meal meal;
@@ -20,18 +24,29 @@ class MealCard extends StatefulWidget {
 }
 
 class _MealCardState extends State<MealCard> {
+  late bool customTileExpanded = false;
+
   @override
   Widget build(BuildContext context) {
     var meals = Hive.box('meals');
     return Card(
+      key: ValueKey<String>(widget.meal.name),
       margin: const EdgeInsets.only(left: 20, right: 20, bottom: 2, top: 4),
       shape: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: Colors.green, width: 1)),
       child: ExpansionTile(
+        trailing: Icon(
+          !customTileExpanded
+              ? Icons.arrow_circle_down_outlined
+              : Icons.arrow_circle_up_outlined,
+        ),
+        onExpansionChanged: (bool expanded) {
+          setState(() => customTileExpanded = expanded);
+        },
         expandedAlignment: Alignment.centerLeft,
         title: Text(
-          widget.meal.name,
+          StringUtils.capitalize(widget.meal.name),
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         subtitle: Text("${widget.meal.kcal} kcal"),
@@ -54,7 +69,11 @@ class _MealCardState extends State<MealCard> {
                       itemBuilder: (context, index) {
                         return Row(
                           children: [
-                            Text("- ${widget.meal.ingredients[index].name}: "),
+                            Flexible(
+                              fit: FlexFit.loose,
+                              child: Text(
+                                  "${widget.meal.ingredients[index].name}: "),
+                            ),
                             Text("${widget.meal.ingredients[index].quantity} "),
                             Text(widget.meal.ingredients[index].unit),
                           ],
@@ -70,20 +89,21 @@ class _MealCardState extends State<MealCard> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 2),
-                  child: Row(
+                  child: Wrap(
+                    runSpacing: 3,
                     children: [
                       (widget.meal.breakfast
                           ? const MealTypeBubble("Reggeli")
-                          : Container()),
+                          : SizedBox()),
                       (widget.meal.lunch
                           ? const MealTypeBubble("Ebéd")
-                          : Container()),
+                          : SizedBox()),
                       (widget.meal.dinner
                           ? const MealTypeBubble("Vacsora")
-                          : Container()),
+                          : SizedBox()),
                       (widget.meal.otherMeal
                           ? const MealTypeBubble("Egyéb étkezés")
-                          : Container()),
+                          : SizedBox()),
                     ],
                   ),
                 ),
@@ -100,14 +120,15 @@ class _MealCardState extends State<MealCard> {
                     : Container()),
                 (widget.isReplaceButton
                     ? Align(
-                  alignment: Alignment.bottomRight,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      widget.replaceMeal(widget.index,widget.week, widget.mealName);
-                    },
-                    child: const Text("Étkezés kicserélése"),
-                  ),
-                )
+                        alignment: Alignment.bottomRight,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            widget.replaceMeal(
+                                widget.index, widget.week, widget.mealName);
+                          },
+                          child: const Text("Étkezés kicserélése"),
+                        ),
+                      )
                     : Container())
               ],
             ),

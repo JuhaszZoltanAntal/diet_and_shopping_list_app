@@ -15,8 +15,10 @@ class NewMealForm extends StatefulWidget {
 class _NewMealFormState extends State<NewMealForm> {
   final formKey = GlobalKey<FormState>();
 
+  int forceReRender = 0;
+
   /* Drop down options*/
-  List<String> dropDownItems = ['db', 'g', 'ml', 'csomag'];
+  List<String> dropDownItems = ['db', 'g', 'ml', 'csomag', 'adag', 'zacskó'];
   List<String> selectedItems = ['db'];
 
   /* Count of the dynamic field*/
@@ -52,7 +54,7 @@ class _NewMealFormState extends State<NewMealForm> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       key: formKey,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(left: 16.0, right: 16),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -95,8 +97,12 @@ class _NewMealFormState extends State<NewMealForm> {
               Align(
                 alignment: Alignment.bottomLeft,
                 child: Column(
-                  children: const [
-                    Text('Adja meg az étkezés hozzávalóit: '),
+                  children: [
+                    Text(
+                      'Adja meg az étkezés hozzávalóit: ',
+                      style: TextStyle(
+                          fontSize: 16, color: Theme.of(context).hintColor),
+                    ),
                   ],
                 ),
               ),
@@ -111,6 +117,7 @@ class _NewMealFormState extends State<NewMealForm> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Autocomplete<String>(
+                              key: ValueKey<int>(forceReRender),
                               optionsBuilder:
                                   (TextEditingValue textEditingValue) {
                                 if (textEditingValue.text == '') {
@@ -128,8 +135,8 @@ class _NewMealFormState extends State<NewMealForm> {
                                   FocusNode fieldFocusNode,
                                   VoidCallback onFieldSubmitted) {
                                 return TextFormField(
-                                    controller: fieldTextEditingController,
                                     focusNode: fieldFocusNode,
+                                    controller: fieldTextEditingController,
                                     onSaved: (String? value) {
                                       ingredientsList
                                           .add(Ingredient("name", 0, "unit"));
@@ -138,6 +145,8 @@ class _NewMealFormState extends State<NewMealForm> {
                                     decoration: const InputDecoration(
                                       labelText: 'Név',
                                       hintText: 'pl.: tojás',
+                                      floatingLabelBehavior:
+                                          FloatingLabelBehavior.auto,
                                     ),
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
@@ -146,9 +155,6 @@ class _NewMealFormState extends State<NewMealForm> {
                                       return null;
                                     });
                               },
-                              onSelected: (String selection) {
-                                debugPrint('You just selected $selection');
-                              },
                               optionsViewBuilder: (BuildContext context,
                                   AutocompleteOnSelected<String> onSelected,
                                   Iterable<String> options) {
@@ -156,24 +162,38 @@ class _NewMealFormState extends State<NewMealForm> {
                                   alignment: Alignment.topLeft,
                                   child: Material(
                                     child: Container(
-                                      height: 300,
-                                      width: 300,
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor,
+                                      padding: EdgeInsets.zero,
+                                      margin: EdgeInsets.zero,
+                                      height: 280,
+                                      width: 250,
+                                      decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          border:
+                                              Border.all(color: Colors.grey)),
                                       child: ListView.builder(
+                                        padding: EdgeInsets.zero,
                                         itemCount: options.length,
                                         itemBuilder:
                                             (BuildContext context, int index) {
                                           final String optionStr =
                                               options.elementAt(index);
-                                          return GestureDetector(
-                                            onTap: () {
-                                              onSelected(optionStr);
-                                            },
-                                            child: ListTile(
-                                              title: Text(optionStr),
+                                          return Column(children: <Widget>[
+                                            index > 0 ? Divider() : SizedBox(),
+                                            GestureDetector(
+                                              onTap: () {
+                                                onSelected(optionStr);
+                                              },
+                                              child: ListTile(
+                                                dense: true,
+                                                visualDensity:
+                                                    VisualDensity(vertical: -3),
+                                                title: Text(
+                                                  optionStr,
+                                                ),
+                                              ),
                                             ),
-                                          );
+                                          ]);
                                         },
                                       ),
                                     ),
@@ -199,10 +219,12 @@ class _NewMealFormState extends State<NewMealForm> {
                                 decoration: const InputDecoration(
                                   labelText: 'Mennyiség',
                                   hintText: 'pl.: 4',
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.auto,
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Üres';
+                                    return "Üres";
                                   }
                                   return null;
                                 }),
@@ -214,7 +236,6 @@ class _NewMealFormState extends State<NewMealForm> {
                               ingredientsList[index].unit = value!;
                             },
                             decoration: const InputDecoration(
-                              isDense: true,
                               labelText: 'Mértékegység',
                               contentPadding: EdgeInsets.symmetric(vertical: 9),
                             ),
@@ -224,7 +245,6 @@ class _NewMealFormState extends State<NewMealForm> {
                                     value: item,
                                     child: Text(
                                       item,
-                                      style: const TextStyle(fontSize: 18),
                                     )))
                                 .toList(),
                             onChanged: (item) =>
@@ -235,9 +255,10 @@ class _NewMealFormState extends State<NewMealForm> {
                     );
                   }),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Align(
-                    alignment: Alignment.bottomLeft,
+                  Flexible(
                     child: Column(
                       children: [
                         ElevatedButton(
@@ -247,15 +268,17 @@ class _NewMealFormState extends State<NewMealForm> {
                               count = count + 1;
                             });
                           },
-                          child: const Text('Több összetevő felvétele'),
+                          child: const Text(
+                            'Több összetevő felvétele',
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Align(
-                      alignment: Alignment.bottomLeft,
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
                       child: Column(
                         children: [
                           ElevatedButton(
@@ -264,23 +287,30 @@ class _NewMealFormState extends State<NewMealForm> {
                                 count > 1 ? count = count - 1 : count = 1;
                               });
                             },
-                            child: const Text('Kevesebb összetevő'),
+                            child: const Text(
+                              'Kevesebb összetevő',
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Align(
                   alignment: Alignment.bottomLeft,
-                  child: Text('Adja meg az étkezés típusát (legalább egyet)'),
+                  child: Text('Adja meg az étkezés típusát (legalább egyet)',
+                      style: TextStyle(
+                          fontSize: 16, color: Theme.of(context).hintColor)),
                 ),
               ),
               CheckboxListTile(
-                title: const Text("Reggeli"),
+                title: Text("Reggeli",
+                    style: TextStyle(
+                        fontSize: 16, color: Theme.of(context).hintColor)),
                 value: breakfast,
                 contentPadding: EdgeInsets.zero,
                 visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
@@ -292,7 +322,9 @@ class _NewMealFormState extends State<NewMealForm> {
                 controlAffinity: ListTileControlAffinity.leading,
               ),
               CheckboxListTile(
-                title: const Text("Ebéd"),
+                title: Text("Ebéd",
+                    style: TextStyle(
+                        fontSize: 16, color: Theme.of(context).hintColor)),
                 value: lunch,
                 contentPadding: EdgeInsets.zero,
                 visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
@@ -304,7 +336,9 @@ class _NewMealFormState extends State<NewMealForm> {
                 controlAffinity: ListTileControlAffinity.leading,
               ),
               CheckboxListTile(
-                title: const Text("Vacsora"),
+                title: Text("Vacsora",
+                    style: TextStyle(
+                        fontSize: 16, color: Theme.of(context).hintColor)),
                 value: dinner,
                 contentPadding: EdgeInsets.zero,
                 visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
@@ -316,7 +350,9 @@ class _NewMealFormState extends State<NewMealForm> {
                 controlAffinity: ListTileControlAffinity.leading,
               ),
               CheckboxListTile(
-                title: const Text("Egyéb napközbeni étkezés"),
+                title: Text("Egyéb napközbeni étkezés",
+                    style: TextStyle(
+                        fontSize: 16, color: Theme.of(context).hintColor)),
                 value: otherMeal,
                 contentPadding: EdgeInsets.zero,
                 visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
@@ -329,6 +365,7 @@ class _NewMealFormState extends State<NewMealForm> {
               ),
               ElevatedButton(
                 onPressed: () {
+                  formKey.currentState!.validate();
                   if (otherMeal || dinner || breakfast || lunch) {
                     if (formKey.currentState!.validate()) {
                       formKey.currentState?.save();
@@ -360,6 +397,7 @@ class _NewMealFormState extends State<NewMealForm> {
                       count = 1;
                       selectedItems = ['db'];
                       ingredientsList = [];
+                      forceReRender += 1;
                     }
                   } else {
                     ScaffoldMessenger.of(context).showMaterialBanner(

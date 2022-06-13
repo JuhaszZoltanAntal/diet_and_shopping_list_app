@@ -1,13 +1,16 @@
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:basic_utils/basic_utils.dart';
 import 'package:diet_and_shopping_list_app/page/diet_generator_page.dart';
+import 'package:diet_and_shopping_list_app/page/new_meal_page.dart';
 import 'package:diet_and_shopping_list_app/widget/dashboard.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive/hive.dart';
+
 import '../model/diet.dart';
 import '../model/meal.dart';
 import '../widget/meal_card.dart';
 import '../widget/navigation_drawer_widget.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DietPage extends StatefulWidget {
   const DietPage({Key? key}) : super(key: key);
@@ -18,7 +21,7 @@ class DietPage extends StatefulWidget {
 
 class _DietPageState extends State<DietPage> {
   /*Shows which day selected from the widgetOptions*/
-  int selectedIndex = 0;
+  int selectedIndex = DateTime.now().weekday - 1;
 
   /*Replace a Meal in the Diet*/
   void replaceMeal(int index, String week, String mealName) {
@@ -32,71 +35,89 @@ class _DietPageState extends State<DietPage> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text("A(z) $mealName kicserélése!"),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: <Widget>[
-                    const Text(
-                        'Keressen a meglévő étkezések közül, és cserélje ki az étkezést!'),
-                    SimpleAutoCompleteTextField(
-                      key: key,
-                      suggestions: allMealsNames,
-                      clearOnSubmit: true,
-                      textSubmitted: (text) => setState(() {
-                        if (allMealsNames.contains(text)) {
-                          var dietBox = Hive.box('diet');
-                          var theDiet = dietBox.get('theDiet');
-                          var selectedMeal = mealsBox.get(text);
-                          setState(() {
-                            switch (week) {
-                              case "monday":
-                                {
-                                  theDiet.monday[index] = selectedMeal;
-                                }
-                                break;
-                              case "tuesday":
-                                {
-                                  theDiet.tuesday[index] = selectedMeal;
-                                }
-                                break;
-                              case "wednesday":
-                                {
-                                  theDiet.wednesday[index] = selectedMeal;
-                                }
-                                break;
-                              case "thursday":
-                                {
-                                  theDiet.thursday[index] = selectedMeal;
-                                }
-                                break;
-                              case "friday":
-                                {
-                                  theDiet.friday[index] = selectedMeal;
-                                }
-                                break;
-                              case "saturday":
-                                {
-                                  theDiet.saturday[index] = selectedMeal;
-                                }
-                                break;
-                              case "sunday":
-                                {
-                                  theDiet.sunday[index] = selectedMeal;
-                                }
-                                break;
-                              default:
-                                {}
-                            }
-                            theDiet.save();
-                          });
-                          Navigator.of(context).pop();
-                        }
-                      }),
+              title: Text(
+                "${StringUtils.capitalize(mealName)} kicserélése!",
+                style: TextStyle(fontSize: 16),
+              ),
+              scrollable: true,
+              content: Column(
+                children: <Widget>[
+                  Text(
+                      'Keressen a meglévő étkezések közül, és cserélje ki az étkezést!',
+                      style: TextStyle(
+                          fontSize: 13, color: Theme.of(context).hintColor)),
+                  SimpleAutoCompleteTextField(
+                    key: key,
+                    suggestions: allMealsNames,
+                    decoration: const InputDecoration(
+                      hintText: 'Keresés...',
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
                     ),
-                  ],
-                ),
+                    clearOnSubmit: true,
+                    textSubmitted: (text) => setState(() {
+                      if (allMealsNames.contains(text)) {
+                        var dietBox = Hive.box('diet');
+                        var theDiet = dietBox.get('theDiet');
+                        var selectedMeal = mealsBox.get(text);
+                        setState(() {
+                          switch (week) {
+                            case "monday":
+                              {
+                                theDiet.monday[index] = selectedMeal;
+                              }
+                              break;
+                            case "tuesday":
+                              {
+                                theDiet.tuesday[index] = selectedMeal;
+                              }
+                              break;
+                            case "wednesday":
+                              {
+                                theDiet.wednesday[index] = selectedMeal;
+                              }
+                              break;
+                            case "thursday":
+                              {
+                                theDiet.thursday[index] = selectedMeal;
+                              }
+                              break;
+                            case "friday":
+                              {
+                                theDiet.friday[index] = selectedMeal;
+                              }
+                              break;
+                            case "saturday":
+                              {
+                                theDiet.saturday[index] = selectedMeal;
+                              }
+                              break;
+                            case "sunday":
+                              {
+                                theDiet.sunday[index] = selectedMeal;
+                              }
+                              break;
+                            default:
+                              {}
+                          }
+                          theDiet.save();
+                        });
+                        Navigator.of(context).pop();
+                      }
+                    }),
+                  ),
+                ],
               ),
               actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const NewMealPage(),
+                        ),
+                      );
+                    },
+                    child: const Text('Étkezés hozzáadása')),
                 TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -128,7 +149,7 @@ class _DietPageState extends State<DietPage> {
           Expanded(
             child: ListView.builder(
               controller: ScrollController(),
-              itemCount: theDiet.mealPerDay,
+              itemCount: theDiet.monday.length,
               itemBuilder: (context, index) {
                 return Column(
                   children: [
@@ -158,7 +179,7 @@ class _DietPageState extends State<DietPage> {
           Expanded(
             child: ListView.builder(
               controller: ScrollController(),
-              itemCount: theDiet.mealPerDay,
+              itemCount: theDiet.tuesday.length,
               itemBuilder: (context, index) {
                 return Column(
                   children: [
@@ -188,7 +209,7 @@ class _DietPageState extends State<DietPage> {
           Expanded(
             child: ListView.builder(
               controller: ScrollController(),
-              itemCount: theDiet.mealPerDay,
+              itemCount: theDiet.wednesday.length,
               itemBuilder: (context, index) {
                 return Column(
                   children: [
@@ -218,7 +239,7 @@ class _DietPageState extends State<DietPage> {
           Expanded(
             child: ListView.builder(
               controller: ScrollController(),
-              itemCount: theDiet.mealPerDay,
+              itemCount: theDiet.thursday.length,
               itemBuilder: (context, index) {
                 return Column(
                   children: [
@@ -248,7 +269,7 @@ class _DietPageState extends State<DietPage> {
           Expanded(
             child: ListView.builder(
               controller: ScrollController(),
-              itemCount: theDiet.mealPerDay,
+              itemCount: theDiet.friday.length,
               itemBuilder: (context, index) {
                 return Column(
                   children: [
@@ -278,7 +299,7 @@ class _DietPageState extends State<DietPage> {
           Expanded(
             child: ListView.builder(
               controller: ScrollController(),
-              itemCount: theDiet.mealPerDay,
+              itemCount: theDiet.saturday.length,
               itemBuilder: (context, index) {
                 return Column(
                   children: [
@@ -308,7 +329,7 @@ class _DietPageState extends State<DietPage> {
           Expanded(
             child: ListView.builder(
               controller: ScrollController(),
-              itemCount: theDiet.mealPerDay,
+              itemCount: theDiet.sunday.length,
               itemBuilder: (context, index) {
                 return Column(
                   children: [
@@ -346,46 +367,35 @@ class _DietPageState extends State<DietPage> {
     var theDiet = dietBox.get('theDiet');
 
     return Scaffold(
-      drawer: const NavigationDrawerWidget(),
+      endDrawer: const NavigationDrawerWidget(),
       appBar: AppBar(
         title: const Text('Étrend'),
         centerTitle: true,
         backgroundColor: Colors.green,
-        actions: <Widget>[
-          Container(
-              width: 110,
-              margin: const EdgeInsets.all(8),
-              child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.green),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        side: const BorderSide(
-                          color: Colors.white,
-                          width: 1.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const DietGeneratorPage(),
-                      ),
-                    );
-                  },
-                  child: const Text("Új Étrend Generálása",
-                      textAlign: TextAlign.center))),
-        ],
       ),
-      body: theDiet != null
+      body: (theDiet != null)
           ? widgetOptions(theDiet)[selectedIndex]
-          : const Center(
-              child: Text(
-                "Még nincs legenerált étrend!",
-                textAlign: TextAlign.center,
+          : Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Még nincs legenerált étrend!",
+                    textAlign: TextAlign.center,
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const DietGeneratorPage(),
+                          ),
+                        );
+                      },
+                      child: Text("Étrend Generálása"))
+                ],
               ),
             ),
       bottomNavigationBar: BottomNavigationBar(
@@ -421,7 +431,7 @@ class _DietPageState extends State<DietPage> {
         ],
         type: BottomNavigationBarType.fixed,
         // Fixed
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.pinkAccent,
         // <-- This works for fixed
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.blue[800],

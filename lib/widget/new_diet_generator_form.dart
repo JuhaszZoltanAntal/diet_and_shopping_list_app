@@ -1,9 +1,11 @@
+import "dart:math";
+
 import 'package:diet_and_shopping_list_app/model/shopping_list.dart';
 import 'package:diet_and_shopping_list_app/page/new_meal_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
-import "dart:math";
+
 import '../model/diet.dart';
 import '../model/ingredient.dart';
 import '../model/meal.dart';
@@ -210,8 +212,7 @@ Meal getRandomMeal<T>(List<dynamic> list) {
 }
 
 /*Generates a list with a list of meals for the week's days if possible or show an error message*/
-List<List<Meal>>? generateDaysList(
-    allBreakfast, allLunch, allDinner, allOtherMeal, mealsPerDay, context) {
+List<List<Meal>>? generateDaysList(allBreakfast, allLunch, allDinner, allOtherMeal, mealsPerDay, context) {
   late List<Meal> mondayList = [];
   late List<Meal> tuesdayList = [];
   late List<Meal> wednesdayList = [];

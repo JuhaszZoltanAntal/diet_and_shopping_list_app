@@ -2,6 +2,7 @@ import 'package:diet_and_shopping_list_app/model/ingredient.dart';
 import 'package:diet_and_shopping_list_app/page/new_meal_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+
 import '../model/meal.dart';
 import '../widget/meal_card.dart';
 import '../widget/navigation_drawer_widget.dart';
@@ -29,7 +30,7 @@ class _MealsPageState extends State<MealsPage> {
     var allMeals = mealsBox.values;
 
     return Scaffold(
-      drawer: const NavigationDrawerWidget(),
+      endDrawer: const NavigationDrawerWidget(),
       appBar: AppBar(
         title: const Text('Étkezések'),
         centerTitle: true,
@@ -45,7 +46,8 @@ class _MealsPageState extends State<MealsPage> {
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
-                          MealCard(allMeals.elementAt(index), true, deleteMeal, false, (){}),
+                          MealCard(allMeals.elementAt(index), true, deleteMeal,
+                              false, () {}),
                         ],
                       );
                     },
@@ -53,7 +55,9 @@ class _MealsPageState extends State<MealsPage> {
                 ),
               ],
             )
-          : Center(
+          : Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(15),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,

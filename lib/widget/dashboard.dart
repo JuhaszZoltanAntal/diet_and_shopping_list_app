@@ -1,3 +1,4 @@
+import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
@@ -40,7 +41,9 @@ class _DashboardState extends State<Dashboard> {
                         text: 'Az étrend neve:',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      TextSpan(text: ' ${widget.nameOfDiet}'),
+                      TextSpan(
+                          text:
+                              ' ${StringUtils.capitalize(widget.nameOfDiet)}'),
                     ],
                   ),
                 ),

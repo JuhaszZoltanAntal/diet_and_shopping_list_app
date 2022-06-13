@@ -34,8 +34,13 @@ class MyApp extends StatelessWidget {
         errorColor: Colors.pinkAccent,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Colors.blue,), //button color
-            foregroundColor: MaterialStateProperty.all<Color>(Colors.white,), //text (and icon)
+            backgroundColor: MaterialStateProperty.all<Color>(
+              Colors.blue,
+            ),
+            //button color
+            foregroundColor: MaterialStateProperty.all<Color>(
+              Colors.white,
+            ), //text (and icon)
           ),
         ),
       ),

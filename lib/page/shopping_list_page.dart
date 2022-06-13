@@ -1,6 +1,10 @@
+import 'package:basic_utils/basic_utils.dart';
+import 'package:diet_and_shopping_list_app/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+
 import '../widget/navigation_drawer_widget.dart';
+import 'diet_generator_page.dart';
 
 class ShoppingListPage extends StatefulWidget {
   const ShoppingListPage({Key? key}) : super(key: key);
@@ -17,10 +21,13 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
     /*Get theShoppingList from shoppingListBox*/
     var theShoppingList = shoppingListBox.get('theShoppingList');
 
+    var sortedList = theShoppingList?.shoppingList ?? [];
+    sortedList.sort((a, b) => a.name.toString().compareTo(b.name.toString()));
+
     return Scaffold(
-      drawer: const NavigationDrawerWidget(),
+      endDrawer: const NavigationDrawerWidget(),
       appBar: AppBar(
-        title: const Text('Bevásárló lista'),
+        title: const Text('Bevásárlólista'),
         centerTitle: true,
         backgroundColor: Colors.green,
       ),
@@ -29,7 +36,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
               children: [
                 Expanded(
                   child: ListView.builder(
-                    itemCount: theShoppingList.shoppingList.length,
+                    itemCount: sortedList.length,
                     itemBuilder: (context, index) {
                       return Card(
                         margin: const EdgeInsets.only(
@@ -43,14 +50,14 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                               left: 20, top: 10, bottom: 10, right: 20),
                           child: Row(
                             children: [
+                              Expanded(
+                                child: Text(
+                                    '${StringUtils.capitalize(sortedList[index].name)}: ',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold)),
+                              ),
                               Text(
-                                  '${theShoppingList.shoppingList[index].name}: ',
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold)),
-                              Text(
-                                  '${theShoppingList.shoppingList[index].quantity.toString()} '),
-                              Text(
-                                  '${theShoppingList.shoppingList[index].unit} '),
+                                  '${Helper().UnitFormat(sortedList[index].unit.toString(), sortedList[index].quantity)} '),
                             ],
                           ),
                         ),
@@ -60,13 +67,27 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                 ),
               ],
             )
-          : const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text(
-                  "Még nincs legenerált étrend amiből vásárló lista készülhetne!",
-                  textAlign: TextAlign.center,
-                ),
+          : Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Még nincs legenerált étrend amiből bevásárlólista készülhetne!",
+                    textAlign: TextAlign.center,
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const DietGeneratorPage(),
+                          ),
+                        );
+                      },
+                      child: Text("Étrend Generálása"))
+                ],
               ),
             ),
     );
