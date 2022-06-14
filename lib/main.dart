@@ -30,12 +30,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Diet and Shopping List',
       theme: ThemeData(
-        primarySwatch: Colors.green,
-        errorColor: Colors.pinkAccent,
+        primarySwatch: Colors.indigo,
+        errorColor: Color(0xffF0588B),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+            ),
             backgroundColor: MaterialStateProperty.all<Color>(
-              Colors.blue,
+              Color(0xffAC48A5),
             ),
             //button color
             foregroundColor: MaterialStateProperty.all<Color>(

@@ -161,7 +161,7 @@ class _NewDietGeneratorFormState extends State<NewDietGeneratorForm> {
                               'Sikeres étrend és vásárló lista generálás!',
                               style: TextStyle(color: Colors.white),
                             ),
-                            backgroundColor: Colors.green,
+                            backgroundColor: Color(0xff1FB18F),
                           ),
                         );
                         /*Reset form*/
@@ -172,7 +172,7 @@ class _NewDietGeneratorFormState extends State<NewDietGeneratorForm> {
                       ScaffoldMessenger.of(context).showMaterialBanner(
                         MaterialBanner(
                           content: const Text('Töltse ki az összes mezőt!'),
-                          backgroundColor: Colors.pinkAccent,
+                          backgroundColor: Color(0xffF0588B),
                           contentTextStyle:
                               const TextStyle(color: Colors.white),
                           actions: [

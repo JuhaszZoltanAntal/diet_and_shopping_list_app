@@ -29,7 +29,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
       appBar: AppBar(
         title: const Text('Bevásárlólista'),
         centerTitle: true,
-        backgroundColor: Colors.green,
+        backgroundColor: Color(0xff3949AB),
       ),
       body: (theShoppingList != null)
           ? Column(
@@ -40,11 +40,11 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                     itemBuilder: (context, index) {
                       return Card(
                         margin: const EdgeInsets.only(
-                            left: 20, right: 20, bottom: 2, top: 10),
+                            left: 20, right: 20, bottom: 0, top: 5),
                         shape: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide:
-                                const BorderSide(color: Colors.blue, width: 1)),
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(
+                                color: Color(0xffFFBE5A), width: 1)),
                         child: Padding(
                           padding: const EdgeInsets.only(
                               left: 20, top: 10, bottom: 10, right: 20),
@@ -54,7 +54,8 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                                 child: Text(
                                     '${StringUtils.capitalize(sortedList[index].name)}: ',
                                     style: const TextStyle(
-                                        fontWeight: FontWeight.bold)),
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xff1FB18F))),
                               ),
                               Text(
                                   '${Helper().UnitFormat(sortedList[index].unit.toString(), sortedList[index].quantity)} '),

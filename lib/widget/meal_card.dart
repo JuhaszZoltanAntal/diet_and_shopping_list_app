@@ -33,8 +33,11 @@ class _MealCardState extends State<MealCard> {
       key: ValueKey<String>(widget.meal.name),
       margin: const EdgeInsets.only(left: 20, right: 20, bottom: 2, top: 4),
       shape: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.green, width: 1)),
+        borderRadius: BorderRadius.circular(10),
+        borderSide: widget.isDeleteButton
+            ? BorderSide(color: Color(0xffFFBE5A), width: 1.5)
+            : BorderSide(color: Color(0xff3949AB), width: 1.5),
+      ),
       child: ExpansionTile(
         trailing: Icon(
           !customTileExpanded
@@ -57,7 +60,7 @@ class _MealCardState extends State<MealCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "Összetevők:",
+                  "Hozzávalók:",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Padding(

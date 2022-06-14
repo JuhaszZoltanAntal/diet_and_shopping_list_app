@@ -371,7 +371,7 @@ class _DietPageState extends State<DietPage> {
       appBar: AppBar(
         title: const Text('Étrend'),
         centerTitle: true,
-        backgroundColor: Colors.green,
+        backgroundColor: Color(0xff3949AB),
       ),
       body: (theDiet != null)
           ? widgetOptions(theDiet)[selectedIndex]
@@ -431,10 +431,10 @@ class _DietPageState extends State<DietPage> {
         ],
         type: BottomNavigationBarType.fixed,
         // Fixed
-        backgroundColor: Colors.pinkAccent,
+        backgroundColor: Color(0xffFFBE5A),
         // <-- This works for fixed
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.blue[800],
+        selectedItemColor: Color(0xff3949AB),
+        unselectedItemColor: Colors.white,
         currentIndex: selectedIndex,
         onTap: onItemTapped,
         showSelectedLabels: true,

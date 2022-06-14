@@ -269,7 +269,7 @@ class _NewMealFormState extends State<NewMealForm> {
                             });
                           },
                           child: const Text(
-                            'Több összetevő felvétele',
+                            'Több hozzávaló felvétele',
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -288,7 +288,7 @@ class _NewMealFormState extends State<NewMealForm> {
                               });
                             },
                             child: const Text(
-                              'Kevesebb összetevő',
+                              'Hozzávaló törlése',
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -384,7 +384,7 @@ class _NewMealFormState extends State<NewMealForm> {
                             'Mentve az étkezásek közé!',
                             style: TextStyle(color: Colors.white),
                           ),
-                          backgroundColor: Colors.green,
+                          backgroundColor: Color(0xff1FB18F),
                         ),
                       );
 
@@ -404,7 +404,7 @@ class _NewMealFormState extends State<NewMealForm> {
                       MaterialBanner(
                         content: const Text(
                             'Úgy tünik nem jelölted meg az étkezés típusát'),
-                        backgroundColor: Colors.pinkAccent,
+                        backgroundColor: Color(0xffF0588B),
                         contentTextStyle: const TextStyle(color: Colors.white),
                         actions: [
                           TextButton(

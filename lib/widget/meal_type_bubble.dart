@@ -11,9 +11,9 @@ class MealTypeBubble extends StatelessWidget {
       margin: const EdgeInsets.only(right: 4),
       padding: const EdgeInsets.all(5),
       decoration: const BoxDecoration(
-        color: Colors.blue,
+        color: Color(0xffFFBE5A),
         borderRadius: BorderRadius.all(
-          Radius.circular(7),
+          Radius.circular(10),
         ),
       ),
       child: Text(

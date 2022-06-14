@@ -22,7 +22,10 @@ class Helper {
         newstring = newquantity.toInt().toString() + " ml";
       }
     }
-
-    return newstring;
+    if (newstring.contains('.0 ')) {
+      return newstring.replaceAllMapped('.0', (match) => '');
+    } else {
+      return newstring;
+    }
   }
 }

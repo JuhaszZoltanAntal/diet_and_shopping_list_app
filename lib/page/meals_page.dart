@@ -34,7 +34,7 @@ class _MealsPageState extends State<MealsPage> {
       appBar: AppBar(
         title: const Text('Étkezések'),
         centerTitle: true,
-        backgroundColor: Colors.green,
+        backgroundColor: Color(0xff3949AB),
       ),
       body: allMeals.isNotEmpty
           ? Column(

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.diet_and_shopping_list_app" android:versionCode="TODO">
+          package="com.example.diet_and_shopping_list_app">
     <application
             android:label="Étrend és bevásárlólista"
             android:name="${applicationName}"

@@ -20,9 +20,11 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Color(0xffFAF8FF),
       margin: const EdgeInsets.only(left: 20, right: 20, bottom: 0, top: 8),
-      shape: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.blue, width: 2),
+      shape: OutlineInputBorder(
+        borderSide: BorderSide(color: Color(0xffFFBE5A), width: 1.5),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
         padding: const EdgeInsets.all(14.0),
@@ -43,7 +45,7 @@ class _DashboardState extends State<Dashboard> {
                       ),
                       TextSpan(
                           text:
-                              ' ${StringUtils.capitalize(widget.nameOfDiet)}'),
+                          ' ${StringUtils.capitalize(widget.nameOfDiet)}'),
                     ],
                   ),
                 ),
@@ -58,7 +60,9 @@ class _DashboardState extends State<Dashboard> {
                   children: <TextSpan>[
                     const TextSpan(
                       text: 'Tervezett napi bevitel:',
-                      style: TextStyle(color: Colors.blue),
+                      style: TextStyle(
+                          color: Color(0xff3949AB),
+                          fontWeight: FontWeight.bold),
                     ),
                     TextSpan(text: ' ${widget.expectedKcalPerDay} kcal'),
                   ],
@@ -74,7 +78,9 @@ class _DashboardState extends State<Dashboard> {
                   children: <TextSpan>[
                     const TextSpan(
                       text: 'Jelenlegi étrend szerinti napi bevitel:',
-                      style: TextStyle(color: Colors.blue),
+                      style: TextStyle(
+                          color: Color(0xff3949AB),
+                          fontWeight: FontWeight.bold),
                     ),
                     TextSpan(text: ' ${widget.dietKcalPerDay} kcal'),
                   ],
@@ -85,48 +91,56 @@ class _DashboardState extends State<Dashboard> {
               alignment: Alignment.topLeft,
               child: (widget.dietKcalPerDay < widget.expectedKcalPerDay)
                   ? Padding(
-                      padding: const EdgeInsets.only(top: 3),
-                      child: RichText(
-                        text: TextSpan(
-                          text: 'Az étrend ',
-                          style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text:
+                padding: const EdgeInsets.only(top: 3),
+                child: RichText(
+                  text: TextSpan(
+                    text: 'Az étrend ',
+                    style: DefaultTextStyle.of(context).style,
+                    children: <TextSpan>[
+                      TextSpan(
+                        text:
                                   '${widget.expectedKcalPerDay - widget.dietKcalPerDay} kalóriával kevesebbet',
-                              style: const TextStyle(color: Colors.green),
+                              style: const TextStyle(
+                                  color: Color(0xff1FB18F),
+                                  fontWeight: FontWeight.bold),
                             ),
-                            const TextSpan(
-                                text: ' tartalmaz a tervezett bevitelnél, '),
-                            const TextSpan(
-                              text: 'próbáljon meg többet enni!',
-                              style: TextStyle(color: Colors.green),
+                      const TextSpan(
+                          text: ' tartalmaz a tervezett bevitelnél, '),
+                      const TextSpan(
+                        text: 'próbáljon meg többet enni!',
+                              style: TextStyle(
+                                  color: Color(0xff1FB18F),
+                                  fontWeight: FontWeight.bold),
                             ),
-                          ],
-                        ),
-                      ),
-                    )
+                    ],
+                  ),
+                ),
+              )
                   : Padding(
-                      padding: const EdgeInsets.only(top: 3),
-                      child: RichText(
-                        text: TextSpan(
-                          text: 'Az étrend ',
-                          style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text:
+                padding: const EdgeInsets.only(top: 3),
+                child: RichText(
+                  text: TextSpan(
+                    text: 'Az étrend ',
+                    style: DefaultTextStyle.of(context).style,
+                    children: <TextSpan>[
+                      TextSpan(
+                        text:
                                   '${((widget.expectedKcalPerDay - widget.dietKcalPerDay) * (-1))} kalóriával többet tartalmaz',
-                              style: const TextStyle(color: Colors.pinkAccent),
+                              style: const TextStyle(
+                                  color: Color(0xffF0588B),
+                                  fontWeight: FontWeight.bold),
                             ),
-                            const TextSpan(text: ' a tervezett bevitelnél, '),
-                            const TextSpan(
-                              text: 'próbáljon meg kevesebbet enni!',
-                              style: TextStyle(color: Colors.pinkAccent),
+                      const TextSpan(text: ' a tervezett bevitelnél, '),
+                      const TextSpan(
+                        text: 'próbáljon meg kevesebbet enni!',
+                              style: TextStyle(
+                                  color: Color(0xffF0588B),
+                                  fontWeight: FontWeight.bold),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ],
         ),
