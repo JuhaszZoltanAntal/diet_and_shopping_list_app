@@ -167,8 +167,6 @@ class _NewMealFormState extends State<NewMealForm> {
                                       height: 280,
                                       width: 250,
                                       decoration: BoxDecoration(
-                                          color: Theme.of(context)
-                                              .scaffoldBackgroundColor,
                                           border:
                                               Border.all(color: Colors.grey)),
                                       child: ListView.builder(

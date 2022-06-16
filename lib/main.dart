@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
       title: 'Diet and Shopping List',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
+        scaffoldBackgroundColor: Color(0xffFAF8FF),
         errorColor: Color(0xffF0588B),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(

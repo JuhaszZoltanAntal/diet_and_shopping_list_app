@@ -20,7 +20,6 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Color(0xffFAF8FF),
       margin: const EdgeInsets.only(left: 20, right: 20, bottom: 0, top: 8),
       shape: OutlineInputBorder(
         borderSide: BorderSide(color: Color(0xffFFBE5A), width: 1.5),
