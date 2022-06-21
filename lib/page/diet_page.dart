@@ -136,6 +136,26 @@ class _DietPageState extends State<DietPage> {
     return sum;
   }
 
+  int sumCaloriesPerWeek(Diet diet) {
+    int sum = 0;
+    List<List<Meal>> allDaysMeals = [
+      diet.monday,
+      diet.tuesday,
+      diet.wednesday,
+      diet.thursday,
+      diet.friday,
+      diet.sunday,
+      diet.saturday
+    ];
+
+    for (int i = 0; i <= allDaysMeals.length - 1; i++) {
+      for (int y = 0; y <= allDaysMeals[i].length - 1; y++) {
+        sum += allDaysMeals[i][y].kcal;
+      }
+    }
+    return sum;
+  }
+
   /*Function that returns widgets which are representing the meals of the days of a diet*/
   List<Widget> widgetOptions(Diet theDiet) {
     return <Widget>[
@@ -144,6 +164,9 @@ class _DietPageState extends State<DietPage> {
           Dashboard(
             sumCaloriesPerDay(theDiet.monday),
             theDiet.kcalPerDay,
+            sumCaloriesPerWeek(theDiet),
+            theDiet.kcalPerDay * 7,
+            theDiet.mealPerDay,
             theDiet.name,
           ),
           Expanded(
@@ -174,6 +197,9 @@ class _DietPageState extends State<DietPage> {
           Dashboard(
             sumCaloriesPerDay(theDiet.tuesday),
             theDiet.kcalPerDay,
+            sumCaloriesPerWeek(theDiet),
+            theDiet.kcalPerDay * 7,
+            theDiet.mealPerDay,
             theDiet.name,
           ),
           Expanded(
@@ -204,6 +230,9 @@ class _DietPageState extends State<DietPage> {
           Dashboard(
             sumCaloriesPerDay(theDiet.wednesday),
             theDiet.kcalPerDay,
+            sumCaloriesPerWeek(theDiet),
+            theDiet.kcalPerDay * 7,
+            theDiet.mealPerDay,
             theDiet.name,
           ),
           Expanded(
@@ -234,6 +263,9 @@ class _DietPageState extends State<DietPage> {
           Dashboard(
             sumCaloriesPerDay(theDiet.thursday),
             theDiet.kcalPerDay,
+            sumCaloriesPerWeek(theDiet),
+            theDiet.kcalPerDay * 7,
+            theDiet.mealPerDay,
             theDiet.name,
           ),
           Expanded(
@@ -264,6 +296,9 @@ class _DietPageState extends State<DietPage> {
           Dashboard(
             sumCaloriesPerDay(theDiet.friday),
             theDiet.kcalPerDay,
+            sumCaloriesPerWeek(theDiet),
+            theDiet.kcalPerDay * 7,
+            theDiet.mealPerDay,
             theDiet.name,
           ),
           Expanded(
@@ -294,6 +329,9 @@ class _DietPageState extends State<DietPage> {
           Dashboard(
             sumCaloriesPerDay(theDiet.saturday),
             theDiet.kcalPerDay,
+            sumCaloriesPerWeek(theDiet),
+            theDiet.kcalPerDay * 7,
+            theDiet.mealPerDay,
             theDiet.name,
           ),
           Expanded(
@@ -324,6 +362,9 @@ class _DietPageState extends State<DietPage> {
           Dashboard(
             sumCaloriesPerDay(theDiet.sunday),
             theDiet.kcalPerDay,
+            sumCaloriesPerWeek(theDiet),
+            theDiet.kcalPerDay * 7,
+            theDiet.mealPerDay,
             theDiet.name,
           ),
           Expanded(
