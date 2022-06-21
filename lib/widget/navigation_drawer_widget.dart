@@ -73,7 +73,7 @@ class NavigationDrawerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Material(
-        color: Color(0xff1FB18F),
+        color: const Color(0xff1FB18F),
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
           children: <Widget>[
@@ -84,7 +84,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               height: 48,
               child: buildMenuItem(
                 text: 'Étrend generálása',
-                icon: FaIcon(
+                icon: const FaIcon(
                   FontAwesomeIcons.gears,
                   color: Colors.white,
                 ),
@@ -98,7 +98,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               height: 48,
               child: buildMenuItem(
                 text: 'Új étkezés hozzáadása',
-                icon: FaIcon(
+                icon: const FaIcon(
                   FontAwesomeIcons.plus,
                   color: Colors.white,
                 ),
@@ -118,7 +118,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               height: 48,
               child: buildMenuItem(
                 text: 'Étrend',
-                icon: FaIcon(
+                icon: const FaIcon(
                   FontAwesomeIcons.appleWhole,
                   color: Colors.white,
                 ),
@@ -132,7 +132,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               height: 48,
               child: buildMenuItem(
                 text: 'Bevásárlólista',
-                icon: FaIcon(
+                icon: const FaIcon(
                   FontAwesomeIcons.clipboardList,
                   color: Colors.white,
                 ),
@@ -146,7 +146,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               height: 48,
               child: buildMenuItem(
                 text: 'Étkezések',
-                icon: FaIcon(
+                icon: const FaIcon(
                   FontAwesomeIcons.bowlRice,
                   color: Colors.white,
                 ),

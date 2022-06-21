@@ -22,7 +22,7 @@ class _DashboardState extends State<Dashboard> {
     return Card(
       margin: const EdgeInsets.only(left: 20, right: 20, bottom: 0, top: 8),
       shape: OutlineInputBorder(
-        borderSide: BorderSide(color: Color(0xffFFBE5A), width: 1.5),
+        borderSide: const BorderSide(color: Color(0xffFFBE5A), width: 1.5),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(

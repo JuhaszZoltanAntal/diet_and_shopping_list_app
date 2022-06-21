@@ -172,7 +172,7 @@ class _NewDietGeneratorFormState extends State<NewDietGeneratorForm> {
                       ScaffoldMessenger.of(context).showMaterialBanner(
                         MaterialBanner(
                           content: const Text('Töltse ki az összes mezőt!'),
-                          backgroundColor: Color(0xffF0588B),
+                          backgroundColor: const Color(0xffF0588B),
                           contentTextStyle:
                               const TextStyle(color: Colors.white),
                           actions: [

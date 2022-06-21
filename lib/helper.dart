@@ -1,5 +1,5 @@
 class Helper {
-  String UnitFormat(String unit, int quantity) {
+  String unitFormat(String unit, int quantity) {
     String newstring = '$quantity ${unit.toString()}';
     double newquantity = quantity.toDouble();
 

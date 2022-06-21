@@ -13,7 +13,7 @@ class DietGeneratorPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Étrend Generálás'),
         centerTitle: true,
-        backgroundColor: Color(0xff3949AB),
+        backgroundColor: const Color(0xff3949AB),
       ),
       body: const NewDietGeneratorForm(),
     );

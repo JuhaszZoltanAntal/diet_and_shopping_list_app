@@ -14,6 +14,8 @@ class ShoppingListPage extends StatefulWidget {
 }
 
 class _ShoppingListPageState extends State<ShoppingListPage> {
+  int countOfPerson = 1;
+
   @override
   Widget build(BuildContext context) {
     /*Get opened 'shoppingList' box*/
@@ -29,18 +31,52 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
       appBar: AppBar(
         title: const Text('Bevásárlólista'),
         centerTitle: true,
-        backgroundColor: Color(0xff3949AB),
+        backgroundColor: const Color(0xff3949AB),
       ),
       body: (theShoppingList != null)
           ? Column(
-              children: [
+        children: [
+                Container(
+                  decoration: const BoxDecoration(
+                      border: Border(
+                    bottom: BorderSide(width: 1.5, color: Color(0xffAC48A5)),
+                  )),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.remove, color: Colors.indigo),
+                        onPressed: () {
+                          if (countOfPerson >= 2) {
+                            setState(() {
+                              countOfPerson -= 1;
+                            });
+                          }
+                        },
+                      ),
+                      Text(
+                        'Bevásárlás $countOfPerson ember részére',
+                        style: const TextStyle(color: Color(0xffAC48A5)),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.add, color: Colors.indigo),
+                        onPressed: () {
+                          setState(() {
+                            countOfPerson += 1;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
                 Expanded(
                   child: ListView.builder(
                     itemCount: sortedList.length,
                     itemBuilder: (context, index) {
                       return Card(
                         margin: const EdgeInsets.only(
-                            left: 20, right: 20, bottom: 0, top: 5),
+                            left: 20, right: 20, bottom: 4, top: 4),
                         shape: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: const BorderSide(
@@ -58,23 +94,23 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                                         color: Color(0xff1FB18F))),
                               ),
                               Text(
-                                  '${Helper().UnitFormat(sortedList[index].unit.toString(), sortedList[index].quantity)} '),
+                                  '${Helper().unitFormat(sortedList[index].unit.toString(), (sortedList[index].quantity * countOfPerson))} '),
                             ],
-                          ),
-                        ),
-                      );
-                    },
+                    ),
                   ),
-                ),
-              ],
-            )
+                );
+              },
+            ),
+          ),
+        ],
+      )
           : Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(15),
+        alignment: Alignment.center,
+              padding: const EdgeInsets.all(15),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     "Még nincs legenerált étrend amiből bevásárlólista készülhetne!",
                     textAlign: TextAlign.center,
                   ),
@@ -87,10 +123,10 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                           ),
                         );
                       },
-                      child: Text("Étrend Generálása"))
+                      child: const Text("Étrend Generálása"))
                 ],
-              ),
-            ),
+        ),
+      ),
     );
   }
 }

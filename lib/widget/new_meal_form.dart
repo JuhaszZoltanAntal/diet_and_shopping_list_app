@@ -177,7 +177,9 @@ class _NewMealFormState extends State<NewMealForm> {
                                           final String optionStr =
                                               options.elementAt(index);
                                           return Column(children: <Widget>[
-                                            index > 0 ? Divider() : SizedBox(),
+                                            index > 0
+                                                ? const Divider()
+                                                : const SizedBox(),
                                             GestureDetector(
                                               onTap: () {
                                                 onSelected(optionStr);
@@ -185,7 +187,8 @@ class _NewMealFormState extends State<NewMealForm> {
                                               child: ListTile(
                                                 dense: true,
                                                 visualDensity:
-                                                    VisualDensity(vertical: -3),
+                                                    const VisualDensity(
+                                                        vertical: -3),
                                                 title: Text(
                                                   optionStr,
                                                 ),
@@ -297,7 +300,7 @@ class _NewMealFormState extends State<NewMealForm> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Align(
                   alignment: Alignment.bottomLeft,
                   child: Text('Adja meg az étkezés típusát (legalább egyet)',
@@ -402,7 +405,7 @@ class _NewMealFormState extends State<NewMealForm> {
                       MaterialBanner(
                         content: const Text(
                             'Úgy tünik nem jelölted meg az étkezés típusát'),
-                        backgroundColor: Color(0xffF0588B),
+                        backgroundColor: const Color(0xffF0588B),
                         contentTextStyle: const TextStyle(color: Colors.white),
                         actions: [
                           TextButton(

@@ -31,17 +31,17 @@ class MyApp extends StatelessWidget {
       title: 'Diet and Shopping List',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
-        scaffoldBackgroundColor: Color(0xffFAF8FF),
-        errorColor: Color(0xffF0588B),
+        scaffoldBackgroundColor: const Color(0xffFAF8FF),
+        errorColor: const Color(0xffF0588B),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
+              const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
             ),
             backgroundColor: MaterialStateProperty.all<Color>(
-              Color(0xffAC48A5),
+              const Color(0xffAC48A5),
             ),
             //button color
             foregroundColor: MaterialStateProperty.all<Color>(

@@ -6,7 +6,7 @@ import 'package:hive/hive.dart';
 import '../model/meal.dart';
 
 class MealCard extends StatefulWidget {
-  const MealCard(this.meal, this.isDeleteButton, this.deleteMeal,
+  MealCard(this.meal, this.isDeleteButton, this.deleteMeal,
       this.isReplaceButton, this.replaceMeal,
       [this.index, this.week, this.mealName]);
 
@@ -18,13 +18,13 @@ class MealCard extends StatefulWidget {
   final int? index;
   final String? week;
   final String? mealName;
+  late bool customTileExpanded = false;
 
   @override
   State<MealCard> createState() => _MealCardState();
 }
 
 class _MealCardState extends State<MealCard> {
-  late bool customTileExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +35,17 @@ class _MealCardState extends State<MealCard> {
       shape: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
         borderSide: widget.isDeleteButton
-            ? BorderSide(color: Color(0xffFFBE5A), width: 1.5)
-            : BorderSide(color: Color(0xff3949AB), width: 1.5),
+            ? const BorderSide(color: Color(0xffFFBE5A), width: 1.5)
+            : const BorderSide(color: Color(0xff3949AB), width: 1.5),
       ),
       child: ExpansionTile(
         trailing: Icon(
-          !customTileExpanded
-              ? Icons.arrow_circle_down_outlined
-              : Icons.arrow_circle_up_outlined,
+          widget.customTileExpanded
+              ? Icons.arrow_circle_up_outlined
+              : Icons.arrow_circle_down_outlined,
         ),
         onExpansionChanged: (bool expanded) {
-          setState(() => customTileExpanded = expanded);
+          setState(() => widget.customTileExpanded = expanded);
         },
         expandedAlignment: Alignment.centerLeft,
         title: Text(
@@ -97,16 +97,16 @@ class _MealCardState extends State<MealCard> {
                     children: [
                       (widget.meal.breakfast
                           ? const MealTypeBubble("Reggeli")
-                          : SizedBox()),
+                          : const SizedBox()),
                       (widget.meal.lunch
                           ? const MealTypeBubble("Ebéd")
-                          : SizedBox()),
+                          : const SizedBox()),
                       (widget.meal.dinner
                           ? const MealTypeBubble("Vacsora")
-                          : SizedBox()),
+                          : const SizedBox()),
                       (widget.meal.otherMeal
                           ? const MealTypeBubble("Egyéb étkezés")
-                          : SizedBox()),
+                          : const SizedBox()),
                     ],
                   ),
                 ),

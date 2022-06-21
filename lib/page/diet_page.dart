@@ -37,7 +37,7 @@ class _DietPageState extends State<DietPage> {
         builder: (context) => AlertDialog(
               title: Text(
                 "${StringUtils.capitalize(mealName)} kicserélése!",
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
               ),
               scrollable: true,
               content: Column(
@@ -371,17 +371,17 @@ class _DietPageState extends State<DietPage> {
       appBar: AppBar(
         title: const Text('Étrend'),
         centerTitle: true,
-        backgroundColor: Color(0xff3949AB),
+        backgroundColor: const Color(0xff3949AB),
       ),
       body: (theDiet != null)
           ? widgetOptions(theDiet)[selectedIndex]
           : Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(15),
+        alignment: Alignment.center,
+              padding: const EdgeInsets.all(15),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     "Még nincs legenerált étrend!",
                     textAlign: TextAlign.center,
                   ),
@@ -394,7 +394,7 @@ class _DietPageState extends State<DietPage> {
                           ),
                         );
                       },
-                      child: Text("Étrend Generálása"))
+                      child: const Text("Étrend Generálása"))
                 ],
               ),
             ),
@@ -431,9 +431,9 @@ class _DietPageState extends State<DietPage> {
         ],
         type: BottomNavigationBarType.fixed,
         // Fixed
-        backgroundColor: Color(0xffFFBE5A),
+        backgroundColor: const Color(0xffFFBE5A),
         // <-- This works for fixed
-        selectedItemColor: Color(0xff3949AB),
+        selectedItemColor: const Color(0xff3949AB),
         unselectedItemColor: Colors.white,
         currentIndex: selectedIndex,
         onTap: onItemTapped,

@@ -34,7 +34,7 @@ class _MealsPageState extends State<MealsPage> {
       appBar: AppBar(
         title: const Text('Étkezések'),
         centerTitle: true,
-        backgroundColor: Color(0xff3949AB),
+        backgroundColor: const Color(0xff3949AB),
       ),
       body: allMeals.isNotEmpty
           ? Column(
@@ -56,8 +56,8 @@ class _MealsPageState extends State<MealsPage> {
               ],
             )
           : Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(15),
+        alignment: Alignment.center,
+              padding: const EdgeInsets.all(15),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
